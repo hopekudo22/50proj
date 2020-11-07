@@ -1,0 +1,45 @@
+---
+title: "Final Project"
+author: "Hope Kudo"
+date: "11/6/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
+library(tidyverse)
+library(ggplot2)
+library(atus)
+library(shinythemes)
+library(skimr)
+library(readxl)
+library(janitor)
+```
+
+```{r}
+
+cps <- atuscps
+time <- atusact
+resp <- atusresp
+
+table <- left_join(cps, resp, by = "tucaseid")
+View(table)
+
+#View(cps)
+            
+            
+
+
+
+```
+
+Notes:
+cps: This is a 181,335 by 13 data frame containing information collected in the CPS about all individuals who were selected for and responded to the ATUS. The 'tucaseid' variable identifies unique households. 
+time/act: A data frame with 2,094,140 observations on the following variables: tucaseid, time use survey
+resp: This is a 181,335 by 22 data frame containing information on the respondents, including their employment, household, and the diary day (day on which they were interviewed).
+
+has data from 2003 - 2016
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
