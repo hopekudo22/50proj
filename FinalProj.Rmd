@@ -15,21 +15,126 @@ library(shinythemes)
 library(skimr)
 library(readxl)
 library(janitor)
+library(dplyr)
 ```
 
 ```{r}
-
 cps <- atuscps
 time <- atusact
 resp <- atusresp
 
-table <- left_join(cps, resp, by = "tucaseid")
-View(table)
+#join cpc and resp files together by respondent's ID number
 
-#View(cps)
-            
-            
+table <- left_join(cps, resp, by = c("tucaseid")) 
 
+sleeping <- time %>%
+  ungroup() %>% #why do i need ungroup since i don't group time
+  filter(tiercode == 10101)
+
+a <- left_join(table, sleeping, by = c("tucaseid"))
+
+housework <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 20101, 20199))
+
+b <- left_join(a, housework, by = c("tucaseid"))
+
+telephone <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 160101, 169989))
+
+c <- left_join(b, telephone, by = c("tucaseid"))
+
+volunteer <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 150101, 159989))
+
+d <- left_join(c, volunteer, by = c("tucaseid"))
+
+playingsports <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 130101, 130199))
+
+e <- left_join(d, playingsports, by = c("tucaseid"))
+  
+religious_activities <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 140101, 149999))
+
+f <- left_join(e, religious_activities, by = c("tucaseid"))
+
+eating <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 110101, 119999))
+
+g <- left_join(f, eating, by = c("tucaseid"))
+
+shopping <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 70101, 70199))
+
+h <- left_join(g, shopping, by = c("tucaseid"))
+
+research_homework <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 60301, 60399))
+
+i <- left_join(h, research_homework, by = c("tucaseid"))
+
+class <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 60101, 60199))
+
+j <- left_join(i, class, by = c("tucaseid"))
+
+working <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 50101, 59999))
+
+k <- left_join(j, working, by = c("tucaseid"))
+
+HHchildcare <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 30101, 30399))
+
+l <- left_join(k, HHchildcare, by = c("tucaseid"))
+
+HHadultcare <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 30401, 30599))
+
+m <- left_join(l, HHadultcare, by = c("tucaseid"))
+
+attending_socialevents <- time %>%
+  ungroup() %>% 
+  filter(between(tiercode, 120201, 120299 | 129999))
+
+n <- left_join(m, attending_socialevents, by = c("tucaseid"))
+
+relaxing <- time %>%
+  ungroup() %>% 
+  filter(tiercode == 120301 | 120399)
+
+o <- left_join(n, relaxing, by = c("tucaseid")) 
+
+#drop tiercodes in final, rename columns
+  
+o = subset(o, select = -c(tiercode, dur, tiercode.x, tiercode.y, tiercode.x.x, tiercode.y.y, tiercode.x.x.x, tiercode.y.y.y, tiercode.x.x.x.x, tiercode.y.y.y.y, tiercode.x.x.x.x.x, tiercode.y.y.y.y.y, tiercode.x.x.x.x.x.x, tiercode.y.y.y.y.y.y, tiercode.x.x.x.x.x.x.x, tiercode.y.y.y.y.y.y.y, partner_works, partnerptft, wt)) %>% 
+rename(sleeping = dur.x, housework = dur.y, telephone = dur.x.x, volunteer = dur.y.y, playing_sports = dur.x.x.x, religious_activities = dur.y.y.y, eating = dur.x.x.x.x, shopping = dur.y.y.y.y, research_homework = dur.x.x.x.x.x, class = dur.y.y.y.y.y, working = dur.x.x.x.x.x.x, HHchildcare = dur.y.y.y.y.y.y, HHadultcare = dur.x.x.x.x.x.x.x, attending_socials = dur.y.y.y.y.y.y.y) %>%
+filter(tuyear == 2016) %>%  
+distinct()
+
+#write.csv(o, "50proj/tidy.csv")
+
+#HI <- o %>%
+#filter(state == "HI", tuyear == 2016)
+
+#write.csv(HI, "50proj/HI.csv")
+
+#get rid of duplicate rows
+
+
+#how to change minutes (dur) into hours
 
 
 ```
