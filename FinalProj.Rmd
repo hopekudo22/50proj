@@ -117,27 +117,51 @@ relaxing <- time %>%
 
 o <- left_join(n, relaxing, by = c("tucaseid")) 
 
+data <- o 
+
 #drop tiercodes in final, rename columns
   
-o = subset(o, select = -c(tiercode, dur, tiercode.x, tiercode.y, tiercode.x.x, tiercode.y.y, tiercode.x.x.x, tiercode.y.y.y, tiercode.x.x.x.x, tiercode.y.y.y.y, tiercode.x.x.x.x.x, tiercode.y.y.y.y.y, tiercode.x.x.x.x.x.x, tiercode.y.y.y.y.y.y, tiercode.x.x.x.x.x.x.x, tiercode.y.y.y.y.y.y.y, partner_works, partnerptft, wt)) %>% 
+data = subset(data, select = -c(tiercode, dur, tiercode.x, tiercode.y, tiercode.x.x, tiercode.y.y, tiercode.x.x.x, tiercode.y.y.y, tiercode.x.x.x.x, tiercode.y.y.y.y, tiercode.x.x.x.x.x, tiercode.y.y.y.y.y, tiercode.x.x.x.x.x.x, tiercode.y.y.y.y.y.y, tiercode.x.x.x.x.x.x.x, tiercode.y.y.y.y.y.y.y, partner_works, partner_ptft, wt)) %>% 
 rename(sleeping = dur.x, housework = dur.y, telephone = dur.x.x, volunteer = dur.y.y, playing_sports = dur.x.x.x, religious_activities = dur.y.y.y, eating = dur.x.x.x.x, shopping = dur.y.y.y.y, research_homework = dur.x.x.x.x.x, class = dur.y.y.y.y.y, working = dur.x.x.x.x.x.x, HHchildcare = dur.y.y.y.y.y.y, HHadultcare = dur.x.x.x.x.x.x.x, attending_socials = dur.y.y.y.y.y.y.y) %>%
 filter(tuyear == 2016) %>%  
 distinct()
 
-#write.csv(o, "50proj/tidy.csv")
+
+#write.csv(o, "50proj/2016.csv")
 
 #HI <- o %>%
 #filter(state == "HI", tuyear == 2016)
-
-#write.csv(HI, "50proj/HI.csv")
-
-#get rid of duplicate rows
-
-
 #how to change minutes (dur) into hours
 
 
 ```
+
+```{r}
+df1 <- data %>%
+  select(state, sleeping) %>%
+  group_by(state) %>%
+  mutate(mean_sleeping = mean(sleeping)) 
+
+dfsleeping <- df1 %>%
+  select(state, mean_sleeping) %>%
+  distinct()
+
+
+df2 <- data %>%
+  select(state, housework) %>%
+  group_by(state) %>%
+  mutate(mean_housework = mean(housework))
+
+dfhousework <- df2 %>%
+  select(state, mean_housework) %>%
+  distinct()
+
+idk <- left_join(dfhousework, dfsleeping, by = c("state"))
+
+
+
+```
+
 
 Notes:
 cps: This is a 181,335 by 13 data frame containing information collected in the CPS about all individuals who were selected for and responded to the ATUS. The 'tucaseid' variable identifies unique households. 
