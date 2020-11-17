@@ -26,17 +26,23 @@ resp <- atusresp
 #join cpc and resp files together by respondent's ID number
 
 table <- left_join(cps, resp, by = c("tucaseid")) %>% 
-select(tucaseid, region, state, sex, age, edu, race, famincome, tuyear, occup_code, labor_status, student_status,hh_size) %>%
-  filter(tuyear == c("2015", "2016"))
+select(tucaseid, region, state, sex, age, edu, diary_mo, diary_day, race, famincome, tuyear, occup_code, labor_status, student_status,hh_size) %>%
+  filter(tuyear == c("2015", "2016")) %>%
+  #filter(diary_mo == "1", diary_day == "26") %>%
+  distinct()
 
 
 # Change NA to 0 for duration & activity minutes 
+
+#data$housework[which(is.na(data$housework))] <- 0 
+
 #table[["dur"]][is.na(table[["duration"]])] <- 0
 #summary(table$dur)
 
 ```
 
 ```{r}
+#Add variables as columns to dataframe
 #Sleep
 sleep <- time %>%
   ungroup() %>% 
@@ -173,13 +179,22 @@ computeruse <- time %>%
 o <- left_join(n, computeruse, by = c("tucaseid")) %>%
                 mutate(computeruse = dur) 
 o = subset(o, select = -c(tiercode, dur))
+
+#Get rid of duplicate rows
+data <- o %>%
+  distinct() 
+data <- data[!duplicated(data$tucaseid), ]
+
+#add to each variable
+data$housework[which(is.na(data$housework))] <- 0 
+
+#change min to hours
+data$housework <- data$housework / 60
+
+
+
 ```
 
-```{r}
-#Get rid of duplicate rows
-o %>%
-  distinct()
-```
 
 
 #write.csv(o, "50proj/2016.csv")
@@ -191,11 +206,12 @@ o %>%
 
 ```
 
-```{r}
-df1 <- data %>%
+```{r p2}
+test <- o %>%
   select(state, sleeping) %>%
   group_by(state) %>%
-  mutate(mean_sleeping = mean(sleeping)) 
+  mutate(mean_sleep = mean(sleep))
+```
 
 dfsleeping <- df1 %>%
   select(state, mean_sleeping) %>%
@@ -212,10 +228,6 @@ dfhousework <- df2 %>%
   distinct()
 
 idk <- left_join(dfhousework, dfsleeping, by = c("state"))
-
-
-
-```
 
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
