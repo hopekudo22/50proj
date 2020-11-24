@@ -11,11 +11,10 @@ model <- read.csv("2016.csv")
 
 # Define UI for application that draws a histogram
 ui <- navbarPage(
-    "Final Project Title",
+    "How Americans Spend Time During the Day",
     tabPanel("Home",
              titlePanel("Home"),
-             p("Tour of the modeling choices you made and 
-              an explanation of why you made them")),
+             p("I modelled the differences in time spent in different states.")),
     tabPanel("Model",
              h3("Working on data wrangling to fit the state level data to represent the averages, 
                 some states may appear higher right now since they are overrepresented in the sample."),
@@ -40,8 +39,10 @@ ui <- navbarPage(
 #    ),
     tabPanel("Discussion",
              titlePanel("Discussion Title"),
-             p("Tour of the modeling choices you made and 
-              an explanation of why you made them")),
+             p("I chose to focus on how the average American spends their time. By looking at a wide range of
+               activities such as how much someone sleeps in a day, the amount of housework they do, the time
+               they spendon sporting events, and so forth. The time data can be organized by state, family income,
+               education, age, and type of job.")),
     tabPanel("About", 
              titlePanel("About"),
              h3("Project Background and Motivations"),
