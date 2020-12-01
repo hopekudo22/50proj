@@ -28,16 +28,7 @@ resp <- atusresp
 table <- left_join(cps, resp, by = c("tucaseid")) %>% 
 select(tucaseid, region, state, sex, age, edu, diary_mo, diary_day, race, famincome, tuyear, occup_code, labor_status, student_status,hh_size) %>%
   filter(tuyear == c("2015", "2016")) %>%
-  #filter(diary_mo == "1", diary_day == "26") %>%
   distinct()
-
-
-# Change NA to 0 for duration & activity minutes 
-
-#data$housework[which(is.na(data$housework))] <- 0 
-
-#table[["dur"]][is.na(table[["duration"]])] <- 0
-#summary(table$dur)
 
 ```
 
@@ -51,8 +42,6 @@ sleep <- time %>%
 a <- left_join(table, sleep, by = c("tucaseid")) %>%
   mutate(sleep = dur) 
 a = subset(a, select = -c(tiercode, dur)) 
-
-#how to change minutes to hours
 
 #Housework
 housework <- time %>%
@@ -185,55 +174,70 @@ data <- o %>%
   distinct() 
 data <- data[!duplicated(data$tucaseid), ]
 
-#add to each variable
+#Change N/A variables to value of 0
+data$sleep[which(is.na(data$sleep))] <- 0
 data$housework[which(is.na(data$housework))] <- 0 
+data$phonetime[which(is.na(data$phonetime))] <- 0 
+data$volunteer[which(is.na(data$volunteer))] <- 0 
+data$sports[which(is.na(data$sports))] <- 0 
+data$religion[which(is.na(data$religion))] <- 0 
+data$eating[which(is.na(data$eating))] <- 0 
+data$shopping[which(is.na(data$shopping))] <- 0 
+data$research_homework[which(is.na(data$research_homework))] <- 0 
+data$class[which(is.na(data$class))] <- 0 
+data$working[which(is.na(data$working))] <- 0 
+data$tv[which(is.na(data$tv))] <- 0 
+data$computeruse[which(is.na(data$computeruse))] <- 0 
+data$druguse[which(is.na(data$druguse))] <- 0 
 
-#change min to hours
+#Change min to hours
+data$sleep <- data$sleep / 60
 data$housework <- data$housework / 60
+data$phonetime <- data$phonetime / 60
+data$volunteer <- data$volunteer / 60
+data$sports <- data$sports / 60
+data$religion <- data$religion / 60
+data$eating <- data$eating / 60
+data$shopping <- data$shopping / 60
+data$research_homework <- data$research_homework / 60
+data$class <- data$class / 60
+data$working <- data$working / 60
+data$tv <- data$tv / 60
+data$computeruse <- data$computeruse / 60
+data$druguse <- data$druguse / 60
+
+```
+
+```{r}
+
+# I cleaned up the data
+# I want to create a graph that lets people pick states and show the average amount of time spent on each activity. x = activity, y = hours. How would i calculate the average time spent for each state?
+# I want to make a similar one looking at income distribution as well
+# Unsure of how to filter the data
 
 
-#shiny app code
-obj <- "housework"
-
-data %>%
-  ggplot(aes(x = obj)) +
-  geom_density()
 
 ```
 
 
+#shiny app code
+obj <- "housework"
+data %>%
+  ggplot(aes(x = obj)) +
+  geom_density()
 
 #write.csv(o, "50proj/2016.csv")
 
 #HI <- o %>%
 #filter(state == "HI", tuyear == 2016)
-#how to change minutes (dur) into hours
-
-
-```
 
 ```{r p2}
 test <- o %>%
-  select(state, sleeping) %>%
+  select(state, sleep) %>%
   group_by(state) %>%
   mutate(mean_sleep = mean(sleep))
 ```
 
-dfsleeping <- df1 %>%
-  select(state, mean_sleeping) %>%
-  distinct()
-
-
-df2 <- data %>%
-  select(state, housework) %>%
-  group_by(state) %>%
-  mutate(mean_housework = mean(housework))
-
-dfhousework <- df2 %>%
-  select(state, mean_housework) %>%
-  distinct()
-
-idk <- left_join(dfhousework, dfsleeping, by = c("state"))
 
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
