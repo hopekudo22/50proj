@@ -208,6 +208,33 @@ data$druguse <- data$druguse / 60
 
 ```
 
+
+# Create a distribution, x = hours, y = frequency. Create a normal histogram for each state
+# State name, change from abbrv to normal name
+# Compare states, display two plots on the page, create two different plots and set a default. Alphabetical set. Have them be automatically populated. Have two separate dropdowns. 
+
+# Need a statistical regression, y = hours
+
+```{r}
+
+model <- lm(data = data, 
+         sleep ~ state + age + sex + race)
+
+#summary(model)
+
+model2 <- lm(data = data, 
+         eating ~ state + age + sex + race + famincome)
+
+summary(model2)
+
+
+# Make a distribution for each state, refer to exam 3, x = estimates, y = variables (states, race, income)
+# add a table and describe what its doing, find format from the textbook. 
+```
+#*** = prob of getting a result this extreme given null hypotheis that sex is equal is extremely unlikely, thus, we would trust the values generated
+# Make new repo to change name.
+
+
 ```{r}
 
 # I cleaned up the data
