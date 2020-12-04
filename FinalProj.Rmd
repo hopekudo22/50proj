@@ -224,15 +224,21 @@ model <- lm(data = data,
 
 model2 <- lm(data = data, 
          eating ~ state + age + sex + race + famincome)
-
 summary(model2)
-
 
 # Make a distribution for each state, refer to exam 3, x = estimates, y = variables (states, race, income)
 # add a table and describe what its doing, find format from the textbook. 
 ```
 #*** = prob of getting a result this extreme given null hypotheis that sex is equal is extremely unlikely, thus, we would trust the values generated
 # Make new repo to change name.
+
+```{r}
+
+model3 <- lm(data = data, 
+         working ~ age + sex + race + famincome)
+summary(model3)
+
+```
 
 
 ```{r}
@@ -242,10 +248,13 @@ summary(model2)
 # I want to make a similar one looking at income distribution as well
 # Unsure of how to filter the data
 
-
-
 ```
 
+```{r}
+model4 <- lm(data = data, 
+         working ~ sex + famincome + edu)
+summary(model4)
+```
 
 #shiny app code
 obj <- "housework"
