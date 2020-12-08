@@ -17,3 +17,32 @@ library(readxl)
 library(janitor)
 library(dplyr)
 ```
+
+```{r}
+
+fit_obj <- stan_glm(meanofmeans ~ approval_ratings,
+              data = finalgraphtib, 
+              family = gaussian(),
+              refresh = 0)
+
+fit_obj %>%
+  tbl_regression() %>%
+  as_gt()
+
+```
+
+```{r}
+data%>%
+  ggplot(aes(x = sleep, fill = famincome)) +
+  geom_histogram() +
+  facet_wrap(~ famincome) +
+  theme(axis.text = element_text(size = 5), strip.text = element_text(size = 7),
+                 panel.grid = element_blank(), panel.spacing.x = unit(3, "mm"),
+                axis.ticks = element_blank(), axis.ticks.y = element_blank()) +
+  labs(title = "Distribution of Hours Slept Based on Income",
+       subtitle = "Determining the distribution of hours slept based on family income from survey responses 2012-2016",
+       x = "Hours Slept",
+       y = "",
+       caption = "Source: ATUS data") +
+  theme_linedraw()
+```

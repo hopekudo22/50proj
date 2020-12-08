@@ -16,6 +16,10 @@ library(skimr)
 library(readxl)
 library(janitor)
 library(dplyr)
+library(rstanarm)
+library(gtsummary) 
+library(broom.mixed)
+library(gt)
 ```
 
 ```{r}
@@ -221,10 +225,6 @@ model <- lm(data = data,
 
 #summary(model)
 
-model2 <- lm(data = data, 
-         eating ~ state + age + sex + race + famincome)
-summary(model2)
-
 # Make a distribution for each state, refer to exam 3, x = estimates, y = variables (states, race, income)
 # add a table and describe what its doing, find format from the textbook. 
 ```
@@ -232,19 +232,18 @@ summary(model2)
 # Make new repo to change name.
 
 ```{r}
-data%>%
-  ggplot(aes(x = sleep, fill = famincome)) +
-  geom_histogram() +
-  facet_wrap(~ famincome) +
-  theme(axis.text = element_text(size = 5), strip.text = element_text(size = 7),
-                 panel.grid = element_blank(), panel.spacing.x = unit(3, "mm"),
-                axis.ticks = element_blank(), axis.ticks.y = element_blank()) +
-  labs(title = "Distribution of Hours Slept Based on Income",
-       subtitle = "Determining the distribution of hours slept based on family income from survey responses 2012-2016",
-       x = "Hours Slept",
-       y = "",
-       caption = "Source: ATUS data") +
-  theme_linedraw()
+
+set.seed(1000)
+fit_obj <- stan_glm(data = data,
+                    formula = sleep ~ famincome,
+                    refresh = 0)
+#print(fit_obj, view = FALSE, digits = 5)
+
+fit_obj %>%
+  tbl_regression() %>%
+  as_gt()
+
+
 ```
 
 
@@ -256,26 +255,12 @@ summary(model3)
 
 ```
 
-```{r}
-model4 <- lm(data = data, 
-         working ~ sex + famincome + edu)
-summary(model4)
-```
-
 #shiny app code
 obj <- "housework"
 data %>%
   ggplot(aes(x = obj)) +
   geom_density()
 
-#write.csv(o, "50proj/2016.csv")
-
-```{r p2}
-test <- o %>%
-  select(state, sleep) %>%
-  group_by(state) %>%
-  mutate(mean_sleep = mean(sleep))
-```
 
 ```{r}
 write.csv(data, "50proj/fullset.csv")

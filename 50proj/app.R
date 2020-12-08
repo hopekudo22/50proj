@@ -101,6 +101,21 @@ server <- function(input, output, session) {
       theme_linedraw()
   })
   
+  output$regressiontable <- render_gt({
+    formula <- regressiontableInput()
+    
+    set.seed(1000)
+    fit_obj <- stan_glm(data = data,
+                        formula = sleep ~ famincome,
+                        refresh = 0)
+    fit_obj %>%
+      tbl_regression() %>%
+      as_gt() %>%
+      tab_header(title = "Regression of Family Income's Impact on Sleep") %>% 
+      tab_source_note("Source: ATUS data") 
+    
+  })
+  
     #new model
     output$plot <- renderPlot({
         ggplot(dtest, aes(x = state, .data[[input$y]])) +
