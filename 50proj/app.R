@@ -59,9 +59,11 @@ ui <- navbarPage(
                                p("I used data from the American Time Usage Survey over the years of 2003 - 2017. I filtered
                                  the data in order to make it easier to work with, thus, the data is from the years 2012-2017."),
                                h3("About Me"),
-                               p("My name is Hope Kudo and I'm a junior at Harvard studying Government and Psychology.
-                                 I can be reached at hopekudo@college.harvard.edu. The code for this project can be found at my",
-                                 a("GitHub page here.", href = "https://github.com/hopekud22/50proj"))))
+                               p("My name is Hope Kudo and I'm a junior at Harvard studying Government and Psychology. As a proud
+                               member of the Class of 2022 and Quincy House, living at home this semester has been quite a shake up,
+                               but this project has been a great to delve into interesting data and a great way to experiment with R!
+                               I'm excited to put the skills I've learned this semester into use. I can be reached at hopekudo@college.harvard.edu. 
+                               The code for this project can be found at my", a("GitHub page here.", href = "https://github.com/hopekud22/50proj"))))
              )
     )
 )
