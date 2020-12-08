@@ -5,8 +5,9 @@ account: hopekudo22
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3206493
-bundleId: 3958860
+bundleId: 3960822
 url: https://hopekudo22.shinyapps.io/50proj/
-when: 1607410057.59062
+when: 1607445364.45057
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: 2016.csv|HI.csv

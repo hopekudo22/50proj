@@ -213,6 +213,13 @@ data$druguse <- data$druguse / 60
 ```
 
 ```{r}
+model1 <- lm(data = data, 
+         eating ~ age + sex + race + famincome)
+summary(model1)
+```
+
+
+```{r}
 
 data %>%
   ggplot(aes(x = sleep)) +
