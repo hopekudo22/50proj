@@ -46,3 +46,18 @@ data%>%
        caption = "Source: ATUS data") +
   theme_linedraw()
 ```
+
+```{r}
+
+    output$Plot2 <- renderPlot({
+        data %>%
+            filter() %>%
+            ungroup(year) %>%
+            group_by(state) %>%
+            filter(state == input$select_state) %>%
+            ggplot(aes(x = year)) +
+            labs(y = "Percent") + 
+            ggtitle(input$select_state)
+    })
+
+```

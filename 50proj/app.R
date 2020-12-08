@@ -111,21 +111,11 @@ server <- function(input, output, session) {
         ggplot(dtest, aes(x = state, .data[[input$y]])) +
             geom_col(stat = "identity", state = "fill") +
             theme_bw() +
-            #plot_geom() +
+            plot_geom() +
             labs(title = "Demographic Distributions by State",
                  x = "States")
     }, res = 96)
     
-    output$Plot2 <- renderPlot({
-        data %>%
-            filter() %>%
-            ungroup(year) %>%
-            group_by(state) %>%
-            filter(state == input$select_state) %>%
-            ggplot(aes(x = year)) +
-            labs(y = "Percent") + 
-            ggtitle(input$select_state)
-    })
 }
 
 # Run the application 

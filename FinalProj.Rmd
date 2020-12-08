@@ -223,7 +223,7 @@ data$druguse <- data$druguse / 60
 model <- lm(data = data, 
          sleep ~ state + age + sex + race)
 
-#summary(model)
+summary(model)
 
 # Make a distribution for each state, refer to exam 3, x = estimates, y = variables (states, race, income)
 # add a table and describe what its doing, find format from the textbook. 
