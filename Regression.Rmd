@@ -1,0 +1,19 @@
+---
+title: "regression"
+author: "Hope Kudo"
+date: "12/7/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
+library(tidyverse)
+library(ggplot2)
+library(atus)
+library(shinythemes)
+library(skimr)
+library(readxl)
+library(janitor)
+library(dplyr)
+```
