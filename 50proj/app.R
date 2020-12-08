@@ -23,12 +23,9 @@ ui <- navbarPage(
                they spendon sporting events, and so forth. The time data can be organized by state, family income,
                education, age, and type of job.")),
     
-  tabPanel("Models",
+  tabPanel("Sleep & Income",
              fluidPage(
-                 #selectInput("y", "Y variable", choices = names(dtest)),
-                 #selectInput("geom", "geom", c("histogram")),
-                 #selectInput("geom", "geom", c("point", "column", "histogram", "jitter", "smooth")),
-                 #plotOutput("plot"),
+               titlePanel("How Does Family Income Influence Sleep?"),
              fluidRow(column(12, 
                   h3("Distribution of Hours Slept Based on Income"),
                   h4("Determining the distribution of hours slept based on family 
@@ -45,7 +42,7 @@ ui <- navbarPage(
                        h3("Time Usage Distriubtions Based on State"),
                        p("To further analyze the data, I filtered the information for specific states."))),
               fluidRow(column(12,
-                       h4("[some type of] Regression by State"),
+                       h4("Activities by State"),
                        selectizeInput(inputId = "stateInput",
                                       label = "State",
                                       choices = unique(data$state), #add data set
@@ -110,7 +107,7 @@ server <- function(input, output, session) {
   })
   
     #new model
-    output$plot <- renderPlot({
+    output$plot2 <- renderPlot({
         ggplot(dtest, aes(x = state, .data[[input$y]])) +
             geom_col(stat = "identity", state = "fill") +
             theme_bw() +
@@ -119,16 +116,16 @@ server <- function(input, output, session) {
                  x = "States")
     }, res = 96)
     
-#    output$Plot1 <- renderPlot({
-#        data %>%
-#            filter() %>%
-#            ungroup(year) %>%
-#            group_by(state) %>%
-#            filter(state == input$select_state) %>%
-#            ggplot(aes(x = year)) +
-#            labs(y = "Percent") + 
-#            ggtitle(input$select_state)
-#    })
+    output$Plot2 <- renderPlot({
+        data %>%
+            filter() %>%
+            ungroup(year) %>%
+            group_by(state) %>%
+            filter(state == input$select_state) %>%
+            ggplot(aes(x = year)) +
+            labs(y = "Percent") + 
+            ggtitle(input$select_state)
+    })
 }
 
 # Run the application 
