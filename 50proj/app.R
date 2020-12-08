@@ -16,14 +16,7 @@ ui <- navbarPage(
   theme = shinytheme("yeti"),
     "How Americans Spend Time During the Day",
     
-  tabPanel("Home",
-             titlePanel("Home"),
-             p("I modelled the differences in time spent in different states. I chose to focus on how the average American spends their time. 
-             By looking at a wide range of activities such as how much someone sleeps in a day, the amount of housework they do, the time
-               they spendon sporting events, and so forth. The time data can be organized by state, family income,
-               education, age, and type of job.")),
-    
-  tabPanel("Sleep & Income",
+  tabPanel("Sleep & Income Model",
              fluidPage(
                titlePanel("How Does Family Income Influence Sleep?"),
              fluidRow(column(12, 
@@ -58,10 +51,13 @@ ui <- navbarPage(
                                  information on how respondents spend their time along with socioeconomic demographics.
                                  Through data visualizations and analysis, we are able to take a deeper dive into how
                                  Americans spend their time and how different variables such as income, location, or sex,
-                                 among others can influence time usage."),
+                                 among others can influence time usage. I modelled the differences in time spent in different states. I chose to focus on how the average American spends their time. 
+                                 By looking at a wide range of activities such as how much someone sleeps in a day, the amount of housework they do, the time
+                                 they spendon sporting events, and so forth. The time data can be organized by state, family income,
+                                 education, age, and type of job."),
                                h3("Source Information"),
                                p("I used data from the American Time Usage Survey over the years of 2003 - 2017. I filtered
-                                 the data in order to make it easier to work with. [add more]"),
+                                 the data in order to make it easier to work with, thus, the data is from the years 2012-2017."),
                                h3("About Me"),
                                p("My name is Hope Kudo and I'm a junior at Harvard studying Government and Psychology.
                                  I can be reached at hopekudo@college.harvard.edu. The code for this project can be found at my",
