@@ -25,19 +25,18 @@ ui <- navbarPage(
     
   tabPanel("Models",
              fluidPage(
-             h3("Working on data wrangling to fit the state level data to represent the averages, 
-                some states may appear higher right now since they are overrepresented in the sample."),
                  #selectInput("y", "Y variable", choices = names(dtest)),
                  #selectInput("geom", "geom", c("histogram")),
                  #selectInput("geom", "geom", c("point", "column", "histogram", "jitter", "smooth")),
                  #plotOutput("plot"),
-             )),
+             ),
              fluidRow(column(12, 
                   h3("Distribution of Hours Slept Based on Income"),
                   h4("Determining the distribution of hours slept based on family 
                      income from survey responses 2012-2016"),
                   plotOutput("Plot1")),
-             )
+             ))
+  
  
    tabPanel("State Comparison",
             fluidPage(

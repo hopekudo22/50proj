@@ -210,7 +210,6 @@ data$druguse <- data$druguse / 60
 
 
 # Create a distribution, x = hours, y = frequency. Create a normal histogram for each state
-# State name, change from abbrv to normal name
 # Compare states, display two plots on the page, create two different plots and set a default. Alphabetical set. Have them be automatically populated. Have two separate dropdowns. 
 
 # Need a statistical regression, y = hours
@@ -233,20 +232,27 @@ summary(model2)
 # Make new repo to change name.
 
 ```{r}
-
-model3 <- lm(data = data, 
-         working ~ age + sex + race + famincome)
-summary(model3)
-
+data%>%
+  ggplot(aes(x = sleep, fill = famincome)) +
+  geom_histogram() +
+  facet_wrap(~ famincome) +
+  theme(axis.text = element_text(size = 5), strip.text = element_text(size = 7),
+                 panel.grid = element_blank(), panel.spacing.x = unit(3, "mm"),
+                axis.ticks = element_blank(), axis.ticks.y = element_blank()) +
+  labs(title = "Distribution of Hours Slept Based on Income",
+       subtitle = "Determining the distribution of hours slept based on family income from survey responses 2012-2016",
+       x = "Hours Slept",
+       y = "",
+       caption = "Source: ATUS data") +
+  theme_linedraw()
 ```
 
 
 ```{r}
 
-# I cleaned up the data
-# I want to create a graph that lets people pick states and show the average amount of time spent on each activity. x = activity, y = hours. How would i calculate the average time spent for each state?
-# I want to make a similar one looking at income distribution as well
-# Unsure of how to filter the data
+model3 <- lm(data = data, 
+         working ~ age + sex + race + famincome)
+summary(model3)
 
 ```
 
@@ -264,9 +270,6 @@ data %>%
 
 #write.csv(o, "50proj/2016.csv")
 
-#HI <- o %>%
-#filter(state == "HI", tuyear == 2016)
-
 ```{r p2}
 test <- o %>%
   select(state, sleep) %>%
@@ -274,6 +277,9 @@ test <- o %>%
   mutate(mean_sleep = mean(sleep))
 ```
 
+```{r}
+write.csv(data, "50proj/fullset.csv")
 
+```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
