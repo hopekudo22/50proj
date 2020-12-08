@@ -25,7 +25,12 @@ ui <- navbarPage(
                      income from survey responses 2012-2016"),
                   plotOutput("Plot1"))),
              fluidRow(column(12,
-                             gt_output("regressiontable")))
+                             gt_output("regressiontable"))),
+             fluidRow(column(12,
+                             p("The regression table was created used a Bayesian generalized linear model, 
+                               using stan_glm, to model the relation between the average amount of
+                               hours slept during the night and family income. Based on the results,
+                               I'm 95% confident that the true value of the")))
   
              )),
  
@@ -38,7 +43,7 @@ ui <- navbarPage(
                        h4("Activities by State"),
                        selectizeInput(inputId = "stateInput",
                                       label = "State",
-                                      choices = unique(data$state), #add data set
+                                      choices = unique(fulldata$state), #add data set
                                       selected = "Hawaii"),
                        plotOutput("Plot2")
                        )))),
@@ -106,11 +111,9 @@ server <- function(input, output, session) {
   
     #new model
     output$plot2 <- renderPlot({
-      
-        ggplot(fulldata, aes(x = state, .data[[input$y]])) +
-            geom_col(stat = "identity", state = "fill") +
+        ggplot(fulldata, aes(x = sleep, .data[[input$y]])) +
+            geom_histogram(stat = "identity", state = "fill") +
             theme_bw() +
-            plot_geom() +
             labs(title = "Demographic Distributions by State",
                  x = "States")
     }, res = 96)
