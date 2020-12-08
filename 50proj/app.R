@@ -37,10 +37,10 @@ ui <- navbarPage(
  
    tabPanel("State Comparison",
             fluidPage(
-              fluidRow(column(13,
+              fluidRow(column(12,
                        h3("Time Usage Distriubtions Based on State"),
                        p("To further analyze the data, I filtered the information for specific states."))),
-              fluidRow(column(13,
+              fluidRow(column(12,
                        h4("[some type of] Regression by State"),
                        selectizeInput(inputId = "stateInput",
                                       label = "State",

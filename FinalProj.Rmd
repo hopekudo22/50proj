@@ -27,7 +27,7 @@ resp <- atusresp
 
 table <- left_join(cps, resp, by = c("tucaseid")) %>% 
 select(tucaseid, region, state, sex, age, edu, diary_mo, diary_day, race, famincome, tuyear, occup_code, labor_status, student_status,hh_size) %>%
-  filter(tuyear == c("2015", "2016")) %>%
+  filter(tuyear == c("2012", "2013", "2014", "2015", "2016")) %>%
   distinct()
 
 ```
