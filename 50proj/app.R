@@ -29,13 +29,12 @@ ui <- navbarPage(
                  #selectInput("geom", "geom", c("histogram")),
                  #selectInput("geom", "geom", c("point", "column", "histogram", "jitter", "smooth")),
                  #plotOutput("plot"),
-             ),
              fluidRow(column(12, 
                   h3("Distribution of Hours Slept Based on Income"),
                   h4("Determining the distribution of hours slept based on family 
                      income from survey responses 2012-2016"),
-                  plotOutput("Plot1")),
-             ))
+                  plotOutput("Plot1"))
+             ))),
   
  
    tabPanel("State Comparison",
