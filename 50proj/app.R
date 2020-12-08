@@ -47,7 +47,7 @@ ui <- navbarPage(
                                       label = "State",
                                       choices = unique(data$state), #add data set
                                       selected = "Hawaii"),
-                       plotOutput("Plot 2")
+                       plotOutput("Plot2")
                        )))),
     
     tabPanel("About",
@@ -108,7 +108,8 @@ server <- function(input, output, session) {
   
     #new model
     output$plot2 <- renderPlot({
-        ggplot(dtest, aes(x = state, .data[[input$y]])) +
+      
+        ggplot(fulldata, aes(x = state, .data[[input$y]])) +
             geom_col(stat = "identity", state = "fill") +
             theme_bw() +
             plot_geom() +
