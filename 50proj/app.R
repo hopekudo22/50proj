@@ -13,7 +13,7 @@ fulldata <- read.csv("fullset.csv")
 # Define UI for application that draws a histogram
 ui <- navbarPage(
  
-  theme = shinytheme("cyborg"),
+  theme = shinytheme("yeti"),
     "How Americans Spend Time During the Day",
     
   tabPanel("Home",
@@ -35,7 +35,7 @@ ui <- navbarPage(
                      income from survey responses 2012-2016"),
                   plotOutput("Plot1"))),
              fluidRow(column(12,
-                             gt_output(outputId = "regression1")))
+                             gt_output("regressiontable")))
   
              )),
  
@@ -78,14 +78,6 @@ ui <- navbarPage(
 # Define server logic
 
 server <- function(input, output, session) {
-#    plot_geom <- reactive({
-#        switch(input$geom,
-#               point = geom_point(),
-#               histogram = geom_histogram(),
-#               smooth = geom_smooth(se = TRUE, na.rm = TRUE),
-#               jitter = geom_jitter()
-#        )
-#    })
     
   output$Plot1 <- renderPlot({
     fulldata %>%
@@ -103,9 +95,8 @@ server <- function(input, output, session) {
       theme_linedraw()
   })
   
-  output$regression1 <- render_gt({
-    formula <- regressiontableInput()
-    
+  
+  output$regressiontable <- render_gt({
     set.seed(1000)
     fit_obj <- stan_glm(data = data,
                         formula = sleep ~ famincome,
