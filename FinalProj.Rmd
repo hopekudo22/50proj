@@ -213,6 +213,46 @@ data$druguse <- data$druguse / 60
 ```
 
 ```{r}
+
+data %>%
+  ggplot(aes(x = sleep)) +
+  geom_histogram()
+
+
+
+```
+
+
+
+
+```{r}
+hawaii <- data %>%
+  filter(state == "HI") %>%
+  select(state, sleep)
+
+fit_obj <- stan_glm(data = hawaii,
+                    formula = sleep,
+                    refresh = 0)
+
+fit_obj %>%
+  tbl_regression() %>%
+  as_gt()
+
+fit_obj_posterior <- posterior_predict(fit_obj, newdata = hawaii) %>%
+  as_tibble() %>% 
+  mutate_all(as.numeric)
+
+fit_obj_posterior %>%
+
+  ggplot(aes(x = hours)) +
+  geom_histogram(aes(y = after_stat(count/sum(count))),
+    alpha = 0.5, 
+                 bins = 90, 
+                 position = "identity")
+
+```
+
+```{r}
 alaska <- data %>%
   filter(state == "AK") %>%
   summarise(sleep, housework) %>%
@@ -224,9 +264,7 @@ alaska <- data %>%
   
   #summarize_if(`[<-`(data, data==0, value = NA), is.numeric, mean, na.rm = TRUE)
 
-
 #activities <- summarize_if(`[<-`(data, data==0, value = NA), is.numeric, mean, na.rm = TRUE)
-
 ```
 # Create a distribution, x = hours, y = frequency. Create a normal histogram for each state
 # Compare states, display two plots on the page, create two different plots and set a default. Alphabetical set. Have them be automatically populated. Have two separate dropdowns. 

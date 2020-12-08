@@ -110,12 +110,12 @@ server <- function(input, output, session) {
   })
   
     #new model
-    output$plot2 <- renderPlot({
-        ggplot(fulldata, aes(x = sleep, .data[[input$y]])) +
-            geom_histogram(stat = "identity", state = "fill") +
-            theme_bw() +
+    output$Plot2 <- renderPlot({
+        ggplot(data = fulldata, aes(x = sleep, .data[[input$y]])) +
+            geom_histogram(state = "fill") +
             labs(title = "Demographic Distributions by State",
-                 x = "States")
+                 x = "States") +
+        theme_linedraw()
     }, res = 96)
     
 }
