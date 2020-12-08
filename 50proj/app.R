@@ -8,8 +8,7 @@ library(dplyr, warn.conflicts = FALSE)
 library(ggforce)
 
 #Load ATUS data
-dtest <- read.csv("2016.csv")
-model <- read.csv("2016.csv")
+fulldata <- read.csv("fullset.csv")
 
 # Define UI for application that draws a histogram
 ui <- navbarPage(
@@ -24,16 +23,21 @@ ui <- navbarPage(
                they spendon sporting events, and so forth. The time data can be organized by state, family income,
                education, age, and type of job.")),
     
-  tabPanel("Model",
+  tabPanel("Models",
+             fluidPage(
              h3("Working on data wrangling to fit the state level data to represent the averages, 
                 some states may appear higher right now since they are overrepresented in the sample."),
-             fluidPage(
-                 #selectInput("x", "X variable", choices = names(dtest)),
-                 selectInput("y", "Y variable", choices = names(dtest)),
-                 selectInput("geom", "geom", c("histogram")),
+                 #selectInput("y", "Y variable", choices = names(dtest)),
+                 #selectInput("geom", "geom", c("histogram")),
                  #selectInput("geom", "geom", c("point", "column", "histogram", "jitter", "smooth")),
-                 plotOutput("plot")
+                 #plotOutput("plot"),
              )),
+             fluidRow(column(12, 
+                  h3("Distribution of Hours Slept Based on Income"),
+                  h4("Determining the distribution of hours slept based on family 
+                     income from survey responses 2012-2016"),
+                  plotOutput("Plot1")),
+             )
  
    tabPanel("State Comparison",
             fluidPage(
@@ -74,15 +78,31 @@ ui <- navbarPage(
 # Define server logic
 
 server <- function(input, output, session) {
-    plot_geom <- reactive({
-        switch(input$geom,
-               point = geom_point(),
-               histogram = geom_histogram(),
-               smooth = geom_smooth(se = TRUE, na.rm = TRUE),
-               jitter = geom_jitter()
-        )
-    })
+#    plot_geom <- reactive({
+#        switch(input$geom,
+#               point = geom_point(),
+#               histogram = geom_histogram(),
+#               smooth = geom_smooth(se = TRUE, na.rm = TRUE),
+#               jitter = geom_jitter()
+#        )
+#    })
     
+  output$Plot1 <- renderPlot({
+    fulldata %>%
+    ggplot(aes(x = sleep, fill = famincome)) +
+      geom_histogram() +
+      facet_wrap(~ famincome) +
+      theme(axis.text = element_text(size = 5), strip.text = element_text(size = 7),
+            panel.grid = element_blank(), panel.spacing.x = unit(3, "mm"),
+            axis.ticks = element_blank(), axis.ticks.y = element_blank()) +
+      labs(title = "Distribution of Hours Slept Based on Income",
+           subtitle = "Determining the distribution of hours slept based on family income from survey responses 2012-2016",
+           x = "Hours Slept",
+           y = "",
+           caption = "Source: ATUS data") +
+      theme_linedraw()
+  })
+  
     #new model
     output$plot <- renderPlot({
         ggplot(dtest, aes(x = state, .data[[input$y]])) +
