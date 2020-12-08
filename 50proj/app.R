@@ -33,9 +33,11 @@ ui <- navbarPage(
                   h3("Distribution of Hours Slept Based on Income"),
                   h4("Determining the distribution of hours slept based on family 
                      income from survey responses 2012-2016"),
-                  plotOutput("Plot1"))
-             ))),
+                  plotOutput("Plot1"))),
+             fluidRow(column(12,
+                             gt_output(outputId = "regression1")))
   
+             )),
  
    tabPanel("State Comparison",
             fluidPage(
@@ -101,7 +103,7 @@ server <- function(input, output, session) {
       theme_linedraw()
   })
   
-  output$regressiontable <- render_gt({
+  output$regression1 <- render_gt({
     formula <- regressiontableInput()
     
     set.seed(1000)
