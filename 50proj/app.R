@@ -6,6 +6,8 @@ library(shinythemes)
 library(readr)
 library(dplyr, warn.conflicts = FALSE)
 library(ggforce)
+library(gt)
+library(gtsummary)
 
 #Load ATUS data
 fulldata <- read.csv("fullset.csv")
