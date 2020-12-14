@@ -12,6 +12,7 @@ library(gtsummary)
 #Load ATUS data
 fulldata <- read.csv("fullset.csv")
 
+
 # Define UI for application that draws a histogram
 ui <- navbarPage(
  

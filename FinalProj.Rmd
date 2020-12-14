@@ -302,8 +302,6 @@ fit_obj <- stan_glm(data = data,
 fit_obj %>%
   tbl_regression() %>%
   as_gt()
-
-
 ```
 
 
