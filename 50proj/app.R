@@ -19,7 +19,7 @@ ui <- navbarPage(
   theme = shinytheme("yeti"),
     "How Americans Spend Time During the Day",
     
-  tabPanel("Sleep & Income Model",
+  tabPanel("Sleep Models",
              fluidPage(
                titlePanel("How Does Family Income Influence Sleep?"),
              fluidRow(column(12, 
@@ -27,8 +27,22 @@ ui <- navbarPage(
                   h4("Determining the distribution of hours slept based on family 
                      income from survey responses 2012-2016"),
                   plotOutput("Plot1"))),
-             fluidRow(column(12,
-                             gt_output("regressiontable"))),
+             p("Interpretation of regression table"),
+             sidebarPanel(
+             selectInput(inputId = "regressiontable",
+                         label = "Select Activity:",
+                         choices = c("Sleep and Family Income",
+                                     "Sleep and Race",
+                                     "Sleep and Age",
+                                     "Sleep and Gender",
+                                     "Sleep and Education Level"))),
+             mainPanel(
+               plotOutput(outputID = "sleepincome"),
+               plotOutput(outputID = "sleeprace"),
+               plotOutput(outputID = "sleepage"),
+               plotOutput(outputId = "sleepgender"),
+               plotOutput(outputId = "sleepedu"),
+               gt_output(outputId = "regressiontable")),
              fluidRow(column(12,
                              p("The regression table was created used a Bayesian generalized linear model, 
                                using stan_glm, to model the relation between the average amount of
@@ -98,6 +112,7 @@ server <- function(input, output, session) {
       theme(axis.text = element_text(size = 5), strip.text = element_text(size = 7),
             panel.grid = element_blank(), panel.spacing.x = unit(3, "mm"),
             axis.ticks = element_blank(), axis.ticks.y = element_blank()) +
+      scale_fill_discrete(name = "Family Income") +
       labs(title = "Distribution of Hours Slept Based on Income",
            subtitle = "Determining the distribution of hours slept based on family income from survey responses 2012-2016",
            x = "Hours Slept",
@@ -106,12 +121,21 @@ server <- function(input, output, session) {
       theme_linedraw()
   })
   
+  regressionInput <- reactive ({
+    switch(input$regression,
+           "Sleep and Family Income" = formula(data$sleep ~ data$famincome),
+           "Sleep and Race" = formula(data$sleep ~ data$race),
+           "Sleep and Age" = formula(data$sleep ~ data$age),
+           "Sleep and Gender" = formula(data$sleep ~ data$sex),
+           "Sleep and Education Level" = fomrula(data$sleep ~ data$edu))
+    
+  })
+  
   
   output$regressiontable <- render_gt({
-    set.seed(1000)
     fit_obj <- stan_glm(data = data,
                         formula = sleep ~ famincome,
-                        refresh = 0)
+                        refresh = 0) %>%
     fit_obj %>%
       tbl_regression() %>%
       as_gt() %>%

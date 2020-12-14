@@ -19,19 +19,6 @@ library(dplyr)
 ```
 
 ```{r}
-
-fit_obj <- stan_glm(meanofmeans ~ approval_ratings,
-              data = finalgraphtib, 
-              family = gaussian(),
-              refresh = 0)
-
-fit_obj %>%
-  tbl_regression() %>%
-  as_gt()
-
-```
-
-```{r}
 data%>%
   ggplot(aes(x = sleep, fill = famincome)) +
   geom_histogram() +

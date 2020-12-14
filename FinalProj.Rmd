@@ -220,19 +220,6 @@ summary(model1)
 
 
 ```{r}
-
-data %>%
-  ggplot(aes(x = sleep)) +
-  geom_histogram()
-
-
-
-```
-
-
-
-
-```{r}
 hawaii <- data %>%
   filter(state == "HI") %>%
   select(state, sleep)
@@ -293,7 +280,7 @@ summary(model)
 ```{r}
 set.seed(1000)
 fit_obj <- stan_glm(data = data,
-                    formula = sleep ~ famincome,
+                    formula = sleep ~ edu,
                     refresh = 0)
 #print(fit_obj, view = FALSE, digits = 5)
 
