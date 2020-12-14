@@ -279,7 +279,6 @@ alaska <- data %>%
 # Need a statistical regression, y = hours
 
 ```{r}
-
 model <- lm(data = data, 
          sleep ~ state + age + sex + race)
 
@@ -292,7 +291,6 @@ summary(model)
 # Make new repo to change name.
 
 ```{r}
-
 set.seed(1000)
 fit_obj <- stan_glm(data = data,
                     formula = sleep ~ famincome,
@@ -322,7 +320,6 @@ data %>%
 
 ```{r}
 write.csv(data, "50proj/fullset.csv")
-
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

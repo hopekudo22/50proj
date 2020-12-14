@@ -64,8 +64,16 @@ ui <- navbarPage(
                                  they spendon sporting events, and so forth. The time data can be organized by state, family income,
                                  education, age, and type of job."),
                                h3("Source Information"),
-                               p("I used data from the American Time Usage Survey over the years of 2003 - 2017. I filtered
-                                 the data in order to make it easier to work with, thus, the data is from the years 2012-2017."),
+                               p("I used data from the American Time Usage Survey over the years of 2003 - 2016 from library(atus).
+                               The American Time Use Survey is an annual survey that is conducted on a sample of individuals across the
+                               United States and studies how individuals spend their time over the course of a day. Individual respondents
+                               are interviewed about what activities they engaged in, the time duration spent on those activities, at what
+                               locations, and int he presence of which individuals. These activities are subsequently encoded into tier codes
+                               of activities. I filtered the data in order to make it easier to work with, going from over 2 million data 
+                               points to approximately 15,000. I combined individual tier codes of specific activities into broader categories
+                               that comprise of time spent sleeping, on housework, volunteering, playing sports, practicing religion, eating
+                               and drinking, shopping, research and homework, time in class, watching television, drug usage, and computer usage.
+                                 thus, the data is from the years 2012-2017."),
                                h3("About Me"),
                                p("My name is Hope Kudo and I'm a junior at Harvard studying Government and Psychology. As a proud
                                member of the Class of 2022 and Quincy House, living at home this semester has been quite a shake up,
