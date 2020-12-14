@@ -20,6 +20,7 @@ library(rstanarm)
 library(gtsummary) 
 library(broom.mixed)
 library(gt)
+library(ggridges)
 ```
 
 ```{r}
@@ -276,6 +277,18 @@ summary(model)
 ```
 #*** = prob of getting a result this extreme given null hypotheis that sex is equal is extremely unlikely, thus, we would trust the values generated
 # Make new repo to change name.
+
+```{r}
+sleepedu <- data %>%
+  ggplot(aes(x = sleep, y = edu)) +
+  geom_boxplot() +
+  theme_bw() +
+  labs(x = "Hours of Sleep",
+       y = "Level of Education",
+       title = "Distribution of Hours of Sleep Linked to Level of Education")
+  
+sleepedu
+```
 
 ```{r}
 set.seed(1000)

@@ -29,24 +29,28 @@ ui <- navbarPage(
                   plotOutput("Plot1"))),
              p("Interpretation of regression table"),
              sidebarPanel(
+               titlePanel("Interactive Regression:"),
+               p("Select a factor to see a regression table detailing the results"),
              selectInput(inputId = "regressiontable",
-                         label = "Select Activity:",
+                         label = "Select Factor:",
                          choices = c("Sleep and Family Income",
                                      "Sleep and Race",
                                      "Sleep and Age",
                                      "Sleep and Gender",
                                      "Sleep and Education Level"))),
              mainPanel(
+               titlePanel("Sleep and Other Factors that Influence It"),
                plotOutput(outputID = "sleepincome"),
                plotOutput(outputID = "sleeprace"),
-               plotOutput(outputID = "sleepage"),
                plotOutput(outputId = "sleepgender"),
                plotOutput(outputId = "sleepedu"),
-               gt_output(outputId = "regressiontable")),
+               gt_output(outputId = "regression")),
              fluidRow(column(12,
                              p("The regression table was created used a Bayesian generalized linear model, 
                                using stan_glm, to model the relation between the average amount of
-                               hours slept during the night and family income. Based on the results,
+                               hours slept during the night and the factors of family income, race, age, sex,
+                               and education level. 
+                               Based on the results,
                                I'm 95% confident that the true value of the")))
   
              )),
@@ -125,21 +129,70 @@ server <- function(input, output, session) {
     switch(input$regression,
            "Sleep and Family Income" = formula(data$sleep ~ data$famincome),
            "Sleep and Race" = formula(data$sleep ~ data$race),
-           "Sleep and Age" = formula(data$sleep ~ data$age),
            "Sleep and Gender" = formula(data$sleep ~ data$sex),
            "Sleep and Education Level" = fomrula(data$sleep ~ data$edu))
     
   })
   
+  output$sleepincome <- renderPlot({
+    sleepincome <- data %>%
+      ggplot(aes(x = sleep, y = famincome)) +
+      geom_boxplot() +
+      theme_bw() +
+      labs(x = "Hours of Sleep",
+           y = "Family Income ($)",
+           title = "Distribution of Hours of Sleep Linked to Income")
+    
+    sleepincome
+  })
   
-  output$regressiontable <- render_gt({
-    fit_obj <- stan_glm(data = data,
-                        formula = sleep ~ famincome,
-                        refresh = 0) %>%
+  output$sleeprace <- renderPlot ({
+    sleeprace <- data %>%
+      ggplot(aes(x = sleep, y = race)) +
+      geom_boxplot() +
+      theme_bw() +
+      labs(x = "Hours of Sleep",
+           y = "Race",
+           title = "Distribution of Hours of Sleep Linked to Race")
+    
+    sleeprace
+  })
+  
+  output$sleepgender <- renderPlot({
+    sleepgender <- data %>%
+      ggplot(aes(x = sleep, y = sex)) +
+      geom_boxplot() +
+      theme_bw() +
+      labs(x = "Hours of Sleep",
+           y = "Sex",
+           title = "Distribution of Hours of Sleep Linked to Sex")
+    
+    sleepgender
+  })
+  
+  output$sleepedu <- renderPlot ({
+    sleepedu <- data %>%
+      ggplot(aes(x = sleep, y = edu)) +
+      geom_boxplot() +
+      theme_bw() +
+      labs(x = "Hours of Sleep",
+           y = "Level of Education",
+           title = "Distribution of Hours of Sleep Linked to Level of Education")
+    
+    sleepedu
+  })
+  
+  output$regression <- render_gt({
+    formula <- regressionInput()
+    set.seed(100)
+    fit_obj <- stan_glm(formula,
+                        data = data,
+                        refresh = 0) 
     fit_obj %>%
+      tidy() %>%
       tbl_regression() %>%
-      as_gt() %>%
-      tab_header(title = "Regression of Family Income's Impact on Sleep") %>% 
+      gt() %>%
+      tab_header(title = "Regression of Factors Impact on Sleep") %>% 
       tab_source_note("Source: ATUS data") 
     
   })

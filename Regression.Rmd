@@ -34,6 +34,45 @@ data%>%
   theme_linedraw()
 ```
 
+```{r regression table}
+sleepincome <- data %>%
+  ggplot(aes(x = sleep, y = famincome)) +
+  geom_boxplot() +
+  theme_bw() +
+  labs(x = "Hours of Sleep",
+       y = "Family Income ($)",
+       title = "Distribution of Hours of Sleep Linked to Income")
+
+sleeprace <- data %>%
+  ggplot(aes(x = sleep, y = race)) +
+  geom_boxplot() +
+  theme_bw() +
+  labs(x = "Hours of Sleep",
+       y = "Race",
+       title = "Distribution of Hours of Sleep Linked to Race")
+
+sleepgender <- data %>%
+  ggplot(aes(x = sleep, y = sex)) +
+  geom_boxplot() +
+  theme_bw() +
+  labs(x = "Hours of Sleep",
+       y = "Sex",
+       title = "Distribution of Hours of Sleep Linked to Sex")
+
+sleepedu <- data %>%
+  ggplot(aes(x = sleep, y = edu)) +
+  geom_boxplot() +
+  theme_bw() +
+  labs(x = "Hours of Sleep",
+       y = "Level of Education",
+       title = "Distribution of Hours of Sleep Linked to Level of Education")
+  
+```
+
+
+
+```
+
 ```{r}
 
     output$Plot2 <- renderPlot({
